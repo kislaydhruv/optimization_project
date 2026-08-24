@@ -148,16 +148,3 @@ f(x*)  = -5.919983          (true max = 5.919983)
 nEval  = 38
 ```
 
-## Notes for the slides (per instructions c-f)
-
-- Vary `x0` in `input.txt` for each question and re-run 10 times; tabulate
-  `(x(0), x*, f(x*), nEval)` — a convergence plot of `f(x)` vs iteration can
-  be added by printing `f_k` inside the `bisection_method` loop if you want
-  that level of detail.
-- Vary `delta` (bracket step) and `h` (derivative step): a larger `delta`
-  brackets faster but produces a looser bracket (more bisection iterations
-  needed after); a larger `h` makes the numerical derivative noisier, which
-  can shift `x*` slightly and change how many bisection iterations are
-  needed to satisfy `eps`.
-- All function-evaluation counts reported by the program already include
-  bracketing + refinement + the final `f(x*)` evaluation used for reporting.
