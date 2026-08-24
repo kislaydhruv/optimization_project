@@ -64,7 +64,7 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
     double f_plus  = fun_eval(x_plus,total_func_eval);
     double f_minus = fun_eval(x_minus,total_func_eval);
 
-    
+    // Step 2 of the algorithm: decide the sign of the step.
     if(f_minus>=f_x0 && f_x0>=f_plus){
         d = fabs(d) ;              // f decreases towards +x -> search positive
     }
@@ -80,7 +80,6 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
     double x_km1 = x0 ;                 // x(k-1)
     double x_k   = x0 , f_k = f_x0 ;     // x(k)
     double x_kp1 = x_k + pow(2,k)*d ;    // x(k+1)
-    x_kp1 = min(max(x_kp1, a), b) ;      // keep search inside [a,b]
     double f_kp1 = fun_eval(x_kp1, total_func_eval) ;
 
     while(f_kp1 < f_k){
@@ -88,11 +87,8 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
         x_k   = x_kp1 ;
         f_k   = f_kp1 ;
 
-        if(x_kp1<=a || x_kp1>=b) break ;   // hit the domain edge, stop expanding
-
         k++ ;
         x_kp1 = x_k + pow(2,k)*d ;
-        x_kp1 = min(max(x_kp1, a), b) ;
         f_kp1 = fun_eval(x_kp1, total_func_eval) ;
     }
 
