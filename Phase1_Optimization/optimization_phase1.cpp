@@ -2,9 +2,10 @@
 using namespace std ;
 
 
-// to get the question number
+// to get the question number and marking it as a constant 
 const int QUE = [](){
     int val ;
+    //taking question number as input 
     cout<<"Please assign the question number "<<endl;
     cin>>val ;
     return val ;
@@ -15,8 +16,10 @@ const int QUE = [](){
 
 //to calculate the vlue of functions and function evaluation
 double fun_eval(double& x , int& total_func_eval){
+    // to increase the number of function evaluation every time it get's called 
     total_func_eval++;
     double f = 0.0 ;
+    // using switch cases to assign function according to question number
     switch(QUE){
         case 1:
         f = (pow(2*x-5, 4) - pow(x*x - 1, 3))*(-1) ;
@@ -57,6 +60,7 @@ double fun_der(double&x , double& d , int& total_func_eval){
 
 // Bounding Phase Method (bracketing method)
 vector<double> bounding_phase(double& a , double& b , double d , double& initial_guess , int& total_func_eval){
+    // we are basically doing step 1 
     double x0 = initial_guess ;
     double x_plus  = x0 + fabs(d) ;
     double x_minus = x0 - fabs(d) ;
@@ -73,6 +77,7 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
     }
     else{
         double j = total_func_eval ;
+
         return {max(a,x_minus), min(b,x_plus), j} ;
     }
 
@@ -91,9 +96,11 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
         x_kp1 = x_k + pow(2,k)*d ;
         f_kp1 = fun_eval(x_kp1, total_func_eval) ;
     }
+    //using max , min to make sure we are returning lower bound first then the upper bound 
 
     double lower = min(x_km1, x_kp1) ;
     double upper = max(x_km1, x_kp1) ;
+    //we are typecasting here because the return type is vector<double>
     double j = total_func_eval ;
     return {lower, upper, j} ;
 }
@@ -103,20 +110,33 @@ vector<double> bounding_phase(double& a , double& b , double d , double& initial
 
 
 
-// Bisection Method (gradient-based region-elimination method)
+// Bisection Method 
 vector<double> bisection_method(double& a , double& b , double& d , double& e , int& total_func_eval ){
+    //fingding the derivative
     double der_a = fun_der(a,d,total_func_eval);
     double der_b = fun_der(b,d,total_func_eval);
 
-    if(!(der_a < 0 && der_b > 0)){
-        cerr << "Warning: bracket [" << a << ", " << b
-             << "] does not satisfy f'(a)<0, f'(b)>0. Proceeding anyway." << endl ;
+
+    // to check if we get some saddle point 
+    if(der_a == 0.0 && der_b > 0){
+        double f_a = fun_eval(a, total_func_eval);
+        return {a, f_a, (double)total_func_eval};
+    }
+    if(der_b == 0.0 && der_a < 0){
+        double f_b = fun_eval(b, total_func_eval);
+        return {b, f_b, (double)total_func_eval};
     }
 
+    // throwing error is the required criteria is not fulfilling 
+    if(!(der_a < 0 && der_b > 0)){
+        throw std::invalid_argument("bracket does not satisfy f'(a)<0, f'(b)>0");
+    }
+   
+    // step 1 of bisection method 
     double z = (a+b)/2.0 ;
     double der_z = fun_der(z,d,total_func_eval);
 
-
+   // subsequent steps till the algorithm get's terminated 
     while(fabs(der_z) > e){
         if(der_z > 0){
             b = z ;
