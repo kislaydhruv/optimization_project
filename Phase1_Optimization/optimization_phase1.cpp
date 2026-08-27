@@ -159,20 +159,26 @@ vector<double> bisection_method(double& a , double& b , double& d , double& e , 
 int main(){
     cout<<"The question number is "<<QUE<<endl ;
 
-
+    //reading the input file 
     ifstream fin("input.txt");
     if(!fin){
-        cerr << "Could not open input.txt (expected in the working directory)." << endl ;
+        cerr << "Could not open input.txt ." << endl ;
         return 1 ;
     }
 
+
+    // declaring the input variables 
     double a=0,b=0,delta=0,eps=0,x0=0,h=0 ;
+
     bool found = false ;
     string line ;
+
+    //to extract the data from the input file 
     while(getline(fin, line)){
         if(line.empty() || line[0]=='#') continue ;
         stringstream ss(line);
-        int q ; double A,B,D,E,X0,H ;
+        int q ;
+        double A,B,D,E,X0,H ;
         if(ss >> q >> A >> B >> D >> E >> X0 >> H){
             if(q == QUE){
                 a=A; b=B; delta=D; eps=E; x0=X0; h=H;
