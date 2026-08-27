@@ -1,12 +1,9 @@
-# Input file for optimization_phase1.cpp
 # Columns:  QUE   a       b       delta   eps      x0      h
-#   QUE = question number (must match what you type when the program asks)
+#   QUE = question number 
 #   a,b = interval given in the problem statement (lower, upper)
 #   delta = bounding-phase step size
 #   eps = bisection method convergence tolerance on |f'(x)|
-#   x0 = initial guess (pick freely inside (a,b); edit this to re-run
-#        with a different starting point -- change it and re-run the
-#        program 10 times per question for the report table)
+#   x0 = initial guess 
 #   h = finite-difference step used to numerically estimate f'(x)
 #
 # Q1: Maximize (2x-5)^4 - (x^2-1)^3           in (-10, 0)
